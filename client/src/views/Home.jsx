@@ -1,137 +1,146 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { gameByName } from '../redux/actions'
+import { orderCards } from '../redux/actions'
 
-export default function HomeView() {
-  const [currentPage, setCurrentPage] = useState(1);
-  const [videojuegosState, setVideojuegosState] = useState([]);
-  const [orderCard, setOrderCard] = useState();
+export default function HomeView () {
+  const [orderCard, setOrderCard] = useState()
+  const [currentPage, setCurrentPage] = useState(1)
+  const [busqueda, setBusqueda] = useState('')
+  const [orderCardGenre, setOrderCardGenre] = useState();
+  const dispatch = useDispatch()
+  const stategames = useSelector(state => state.gamesByName)
+  const gamesPerPage = 15
 
-  // const handleChangeOrder = (event) => {
-  //   const valor = event.target.value
-   
-  //   if(valor === "a-z"){
-  //     let result = videojuegosState.sort((a,b) => {return a.name - b.name})
-  //     setOrderCard("a-z");
-  //     return result
-      
-  //   } 
-    
-  //   if(valor === "z-a") {
-  //     let result = videojuegosState.sort((a,b) => {return b.name - a.name})
-  //     setOrderCard("z-a");
-  //     return result
-      
-  //   }
+  console.log(stategames)
 
-  //   if(valor === "default") {
-  //     let result = videojuegosState
-  //     setOrderCard("default");
-  //     return result
-      
-  //   }
-    
-      
-    
-  // }
-
-  async function getVideogame(id) {
-    const response = await fetch(`http://localhost:3001/videogames/${id}`);
-    const data = await response.json();
-    console.log(data);
-    return {
-      id: data.id,
-      name: data.name,
-      genres: data.genre,
-      image: data.background_image,
-    };
-  }
-
-  async function getVideogames(page) {
-    const limit = 15;
-    const start = limit * (page - 1);
-    const end = limit * page;
-    const requests = [];
-
-    for (let i = start; i < end; i++) {
-      requests.push(getVideogame(i));
+  const handleChangeGenre = (event) => {
+    const valor = event.target.value
+    if(valor !== 'default'){
+      setOrderCardGenre(valor)
     }
+  }
+  const handleChangeOrder = (event) => {
+    const valor = event.target.value
 
-    const videogames = await Promise.all(requests);
-    return videogames;
+    if (valor === 'Ascendente') {
+      let result = stategames.sort((a, b) => {
+        return a.name.localeCompare(b.name)
+      })
+      setOrderCard('Ascendente')
+      return result
+    } 
+    if(valor === 'Descendente'){
+      let result = stategames.sort((a, b) => {
+        return b.name.localeCompare(a.name)
+      })
+      setOrderCard('Descendente')
+      return result
+    }
+    if(valor === 'All'){
+      let result = stategames
+      setOrderCard('All')
+      return result
+    }
   }
 
   useEffect(() => {
-    async function fetchVideogames() {
-      const videogames = await getVideogames(currentPage);
-      setVideojuegosState(videogames);
-    }
-
-    fetchVideogames();
-  }, [currentPage]);
+    dispatch(gameByName(busqueda))
+    dispatch(orderCards(orderCard))
+  }, [])
 
   const handlePrev = () => {
-    setCurrentPage((prevPage) => prevPage - 1);
-  };
+    setCurrentPage(prevPage => prevPage - 1)
+  }
 
   const handleNext = () => {
-    setCurrentPage((prevPage) => prevPage + 1);
-  };
+    setCurrentPage(prevPage => prevPage + 1)
+  }
 
-  console.log(videojuegosState);
+  const handleChange = event => {
+    setBusqueda(event.target.value)
+  }
 
- 
+  const hanlderGamesByName = () => {
+    setCurrentPage(1)
+    dispatch(gameByName(busqueda))
+  }
 
   
+  const filteredGames = stategames.filter(game => {
+    if (orderCardGenre) {
+      return game.genre.includes(orderCardGenre);
+    } else {
+      return true;
+    }
+  });
+  const indexOfLastGame = currentPage * gamesPerPage
+  const indexOfFirstGame = indexOfLastGame - gamesPerPage
+  const currentGames = filteredGames.slice(indexOfFirstGame, indexOfLastGame);
+
+
+
   return (
     <div>
       <div>
-                    <h3>Filter by:</h3>
-                    <select>
-                        <option value='default'>Default</option>
-                        <option value='own'>own</option>
-                        <option value='public'>public</option>
-                    </select>
+        <input
+          value={busqueda}
+          placeholder='Search your favorites games'
+          onChange={handleChange}
+        />
+        <button onClick={hanlderGamesByName}>Buscar</button>
+      </div>
+
+      <div>
+        <h3>Filter by:</h3>
+        <select>
+          <option value='default'>Default</option>
+          <option value='own'>own</option>
+          <option value='public'>public</option>
+        </select>
       </div>
       <div>
-                    <h3>Ordering:</h3>
-                    <select>
-                        <option value='default'>Default</option>
-                        <option value='a-z'>a-z</option>
-                        <option value='z-a'>z-a</option>
-                    </select>
+        <h3>Ordering:</h3>
+        <select name='' id='' onChange={handleChangeOrder}>
+          <option value='All'>All</option>
+          <option value='Ascendente'>Ascendente</option>
+          <option value='Descendente'>Descendente</option>
+        </select>
       </div>
       <div>
-                    <h3>Genres:</h3>
-                    <select>
-                        <option value='default'>Default</option>
-                        <option value='action'>Action</option>
-                        <option value='indie'>Indie</option>
-                        <option value='Adventure'>Adventure</option>
-                        <option value='rpg'>RPG</option>
-                        <option value='strategy'>Strategy</option>
-                        <option value='shooter'>Shooter</option>
-                        <option value='casual'>Casual</option>
-                        <option value='simulation'>Simulation</option>
-                        <option value='puzzle'>Puzzle</option>
-                        <option value='arcade'>Arcade</option>
-                        <option value='platformer'>Platformer</option>
-                        <option value='racing'>Racing</option>
-                        <option value='massively-multiplayer'>Massively Multiplayer</option>
-                        <option value='Sports'>Sports</option>
-                        <option value='fighting'>Fighting</option>
-                        <option value='family'>Family</option>
-                        <option value='board-games'>Board Games</option>
-                        <option value='educational'>Educational</option>
-                        <option value='card'>Card</option>
-                    </select>
+        <h3>Genres:</h3>
+        <select name='' id='' onChange={handleChangeGenre}>
+          <option value='default'>Default</option>
+          <option value='Action'>Action</option>
+          <option value='Indie'>Indie</option>
+          <option value='Adventure'>Adventure</option>
+          <option value='RPG'>RPG</option>
+          <option value='Strategy'>Strategy</option>
+          <option value='Shooter'>Shooter</option>
+          <option value='Casual'>Casual</option>
+          <option value='Simulation'>Simulation</option>
+          <option value='Puzzle'>Puzzle</option>
+          <option value='Arcade'>Arcade</option>
+          <option value='Platformer'>Platformer</option>
+          <option value='Racing'>Racing</option>
+          <option value='Massively-multiplayer'>Massively Multiplayer</option>
+          <option value='Sports'>Sports</option>
+          <option value='Fighting'>Fighting</option>
+          <option value='Family'>Family</option>
+          <option value='Board-games'>Board Games</option>
+          <option value='Educational'>Educational</option>
+          <option value='Card'>Card</option>
+        </select>
       </div>
       <div>
-                    <h3>Rating</h3>
-                    <select>
-                        <option value='default'>Default</option>
-                        <option value='0-5'>0-5</option>
-                        <option value='5-0'>5-0</option>
-                    </select>
+        <h3>Rating</h3>
+        <select>
+          <option value='default'>Default</option>
+          <option value='0-5'>0-5</option>
+          <option value='5-0'>5-0</option>
+        </select>
       </div>
+
       <div>
         <button onClick={() => handlePrev()} disabled={currentPage === 1}>
           prev
@@ -141,57 +150,110 @@ export default function HomeView() {
         <button onClick={() => setCurrentPage(3)}>3</button>
         <button onClick={() => handleNext()}>next</button>
       </div>
-      {videojuegosState.length === 0 ? (
+
+      {stategames.length === 0 ? (
         <p>Cargando...</p>
       ) : (
-        videojuegosState
-          .filter((game) => game.name && game.image && game.genres !== undefined)
-          .map((game) => (
-            <div key={game.id}>
-              <hr />
-              <h2>{game.id}</h2>
-              <h2>{game.name}</h2>
-              <img
-                src={game.image}
-                alt="Game Picture"
-                style={{ width: '200px', height: 'auto' }}
-              />
-              <h2>{game.genres}</h2>
-            </div>
-          ))
+        currentGames.map(game => (
+          <div key={game.id}>
+            <hr />
+            <h2>{game.id}</h2>
+            <h2>{game.name}</h2>
+            <img
+              src={game.background_image}
+              alt='Game Picture'
+              style={{ width: '200px', height: 'auto' }}
+            />
+            <h2>{game.genre.join(' ') }</h2>
+          </div>
+        ))
       )}
     </div>
-  );
+  )
 }
 
+// import React, { useState, useEffect } from "react";
+// import { useDispatch, useSelector } from 'react-redux'
+// import { gameByName } from "../redux/actions";
 
+// export default function HomeView() {
+//   const [currentPage, setCurrentPage] = useState(1);
+//   const [busqueda, setBusqueda] = useState("");
+//   const dispatch = useDispatch()
+//   const stategames = useSelector(state => state.gamesByName);
 
+//   console.log(stategames)
 
+//   useEffect(() => {
 
+//     dispatch(gameByName(busqueda))
 
+//   }, []);
 
+//   const handlePrev = () => {
+//     setCurrentPage((prevPage) => prevPage - 1);
+//   };
 
+//   const handleNext = () => {
+//     setCurrentPage((prevPage) => prevPage + 1);
+//   };
 
+//   console.log(stategames);
 
+//   const handleChange = (event) => {
+//     setBusqueda(event.target.value);
+//     // filtrar(event.target.value);
+//   };
+//   console.log(busqueda)
+//   const hanlderGamesByName = () => {
+//       dispatch(gameByName(busqueda))
+//   }
 
+//   return (
+//     <div>
+//       <div>
+//         <input
+//           value={busqueda}
+//           placeholder="Search your favorites games"
+//           onChange={handleChange}
+//         />
+//         <button onClick={hanlderGamesByName}>Buscar</button>
+//       </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//       <div>
+//         <button onClick={() => handlePrev()} disabled={currentPage === 1}>
+//           prev
+//         </button>
+//         <button onClick={() => setCurrentPage(1)}>1</button>
+//         <button onClick={() => setCurrentPage(2)}>2</button>
+//         <button onClick={() => setCurrentPage(3)}>3</button>
+//         <button onClick={() => handleNext()}>next</button>
+//       </div>
+//       {stategames.length === 0 ? (
+//         <p>Cargando...</p>
+//       ) : (
+//         stategames
+//           // .filter(
+//           //   (game) => game.name && game.image && game.genres !== undefined
+//           // )
+//           .map((game) => (
+//             <div key={game.id}>
+//               <hr />
+//               <h2>{game.id}</h2>
+//               <h2>{game.name}</h2>
+//               <img
+//                 src={game.background_image
+//                 }
+//                 alt="Game Picture"
+//                 style={{ width: "200px", height: "auto" }}
+//               />
+//               <h2>{}</h2>
+//             </div>
+//           ))
+//       )}
+//     </div>
+//   );
+// }
 
 // import axios from 'axios';
 // import React, { useState, useEffect, useCallback } from 'react';
@@ -214,7 +276,7 @@ export default function HomeView() {
 //       console.error(error);
 //     }
 //   };
-  
+
 //   const getVideogames = async (currentPage) => {
 //     const limit = 15;
 //     const start = limit * (currentPage - 1);
@@ -270,33 +332,10 @@ export default function HomeView() {
 //          <img src={game.image} alt="Game Picture" style={{ width: '200px', height: 'auto' }} />
 //          </div>
 // )))
-// } 
+// }
 // </div>
 //   )
 // }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // import axios from 'axios'
 // import React , {useState , useEffect} from 'react'
@@ -304,7 +343,7 @@ export default function HomeView() {
 // export default function HomeView() {
 //     const [currentPage, setCurrentPage] = useState(1);
 //     const [videojuegosState, setVideojuegosState] = useState([]);
-    
+
 //     const getVideogame = async (id) => {
 //       const response = await axios.get(`http://localhost:3001/videogames/${id}`)
 //       const get = response.data
@@ -314,17 +353,17 @@ export default function HomeView() {
 //         image: get.background_image,
 //       };
 //     }
-    
+
 //     const getVideogames = async (currentPage) => {
 //       const limit = 15;
 //       const start = limit * (currentPage - 1);
 //       const end = limit * currentPage;
 //       const requests = [];
-    
+
 //       for (let i = start ; i < end; i++) {
 //         requests.push(getVideogame(i));
 //       }
-    
+
 //       const videogames = await Promise.all(requests);
 //       return videogames;
 //     }
@@ -334,14 +373,14 @@ export default function HomeView() {
 //         const videogames = await getVideogames(currentPage);
 //         setVideojuegosState(videogames.filter(videogame => Object.values(videogame).every(value => value !== undefined)));
 //       }
-    
+
 //       fetchVideogames();
 //     }, [currentPage]);
-    
+
 //     const handlePrev = () => {
 //       setCurrentPage(currentPage - 1);
 //     };
-    
+
 //     const handleNext = () => {
 //       setCurrentPage(currentPage + 1);
 //     };
@@ -368,13 +407,11 @@ export default function HomeView() {
 //             <img src={game.image} alt="Game Picture" style={{ width: '200px', height: 'auto' }} />
 //             </div>
 //   )))
-// } 
+// }
 // </div>
 
 //   )
 // }
-
-
 
 // import React , {useState , useEffect} from 'react';
 
@@ -422,57 +459,6 @@ export default function HomeView() {
 //             <img src={game.image} alt="Game Picture" / >
 //             </div>
 //             )))
-          
-      
-        
+
 //       }
 //       </div>)}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

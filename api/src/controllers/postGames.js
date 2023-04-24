@@ -17,7 +17,7 @@ const postGames = async (req, res) => {
         rating,
       })
       const genres = await Genre.findAll({ where: { name: genre } })
-      await juegoAgregado.addGenres(genres)
+      await juegoAgregado.addGenre(genres)
   
       return res.status(200).json(juegoAgregado)
     } catch (error) {
