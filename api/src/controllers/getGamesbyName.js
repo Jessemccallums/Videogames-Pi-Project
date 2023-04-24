@@ -13,7 +13,24 @@ const getGameByName = async (req, res) => {
           [Op.iLike]: `%${gameName}%`,
         },
       },
+      include: [{
+        model: Genre,
+        attributes: ['name'],
+        through: {
+            attributes: []
+        }
+    }]
     });
+
+    const nombreBuscadosTotal = nombreBuscados.map((game) => ({
+      id: game.id,
+      name: game.name,
+      background_image: game.background_image,
+      platforms: game.platforms,
+      genres: game.genres.map((genre) => {
+        return genre.name;
+      }),
+    }));
 
     
     const apiKey = "49898ccb845e449090e95ea5942b8df9";
@@ -27,7 +44,7 @@ const getGameByName = async (req, res) => {
       response = await axios.get(url, {
         params: {
           key: apiKey,
-          search: gameName,
+          search: gameName
         },
       });
 
@@ -39,7 +56,7 @@ const getGameByName = async (req, res) => {
         platforms: game.platforms.map((platform) => {
           return platform.platform.name;
         }),
-        genre: game.genres.map((genre) => {
+        genres: game.genres.map((genre) => {
           return genre.name;
         }),
       }));
@@ -51,7 +68,7 @@ const getGameByName = async (req, res) => {
     } while (response.data.next && count < 100); 
 
 
-    const results = nombreBuscados.concat(gamesRawg);
+    const results = nombreBuscadosTotal.concat(gamesRawg);
     res.status(200).json(results);
   } catch (error) {
     console.error(error);

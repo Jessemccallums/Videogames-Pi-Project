@@ -4,6 +4,7 @@ const postGames = async (req, res) => {
     try {
       const { name, description, background_image, platforms, genre, released, rating } = req.body
         console.log(req.body)
+        console.log(genre)
       if (!name || !description || !genre || !platforms || !background_image || !released || !rating) {
         return res.status(401).send('Faltan datos')
       }
@@ -16,10 +17,10 @@ const postGames = async (req, res) => {
         released,
         rating,
       })
-      const genres = await Genre.findAll({ where: { name: genre } })
-      await juegoAgregado.addGenre(genres)
+      // const genres = await Genre.findAll({ where: { id: genre } })
+      juegoAgregado.addGenres(genre)
   
-      return res.status(200).json(juegoAgregado)
+      res.status(200).json(juegoAgregado)
     } catch (error) {
         console.log(error.message)
         return res.status(500).json({ error: error.message })

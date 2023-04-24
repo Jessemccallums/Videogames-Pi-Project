@@ -1,14 +1,20 @@
-import { ORDER, GET_BY_NAME } from "./actions";
+import { ORDER, GET_BY_NAME, GET_GENRES} from "./actions";
 
 const initialState = {
   gamesByName: [],
   allgames: [],
+  allgenres: []
 };
 
 const rootReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_BY_NAME:
       return { ...state, gamesByName: action.payload };
+      case GET_GENRES:
+        return {
+            ...state,
+            allgenres: action.payload
+        }
     case ORDER:
       return {
         ...state,

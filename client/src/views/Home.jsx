@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { gameByName } from '../redux/actions'
 import { orderCards } from '../redux/actions'
+import { Link } from 'react-router-dom';
 
 export default function HomeView () {
   const [orderCard, setOrderCard] = useState()
@@ -69,7 +70,7 @@ export default function HomeView () {
   
   const filteredGames = stategames.filter(game => {
     if (orderCardGenre) {
-      return game.genre.includes(orderCardGenre);
+      return game.genres.includes(orderCardGenre);
     } else {
       return true;
     }
@@ -158,13 +159,15 @@ export default function HomeView () {
           <div key={game.id}>
             <hr />
             <h2>{game.id}</h2>
+            <Link to={`/detail/${game.id}`}>
             <h2>{game.name}</h2>
+            </Link>
             <img
               src={game.background_image}
               alt='Game Picture'
               style={{ width: '200px', height: 'auto' }}
             />
-            <h2>{game.genre.join(' ') }</h2>
+            <h2>{game.genres.join(' ') }</h2>
           </div>
         ))
       )}
