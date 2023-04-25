@@ -3,7 +3,7 @@ const { Videogame, Genre } = require('../db.js')
 
 const getGenresOfGames = async (req,res) => {
         try {
-            const getGenres = await axios.get(`https://api.rawg.io/api/genres?key=49898ccb845e449090e95ea5942b8df9`)       
+            const getGenres = await axios.get(`https://api.rawg.io/api/genres?key=0bf11d925a114c3ab287876cb7b5a77e`)       
             const info = getGenres.data.results.map(e => {
                 return {
                     id: e.id,

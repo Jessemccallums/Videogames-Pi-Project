@@ -12,7 +12,7 @@ const isUUID = (id) => {
 const getGameById = async (req, res) => {
   const { id } = req.params;
   let URL = 'https://api.rawg.io/api/games';
-  let KEY = '49898ccb845e449090e95ea5942b8df9';
+  let KEY = '0bf11d925a114c3ab287876cb7b5a77e';
 
   try {
     if (isUUID(id)) {

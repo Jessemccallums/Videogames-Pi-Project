@@ -1,0 +1,49 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;900&display=swap');
+
+.nav{
+   display: flex;
+   justify-content: space-between;
+   padding: 30px;
+}
+.texto{
+    text-decoration: none;
+    color: black;
+    border-radius: 20px;
+    background-color: #F1F6F9;
+    padding: 20px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 900;
+}
+
+body{
+    background-color: #212A3E;
+}
+
+.detallado{  
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+    align-items: center;
+    background-color: #F1F6F9;
+    border-radius: 16%;
+    width: 80%;
+    height: 800px;
+    margin: auto;
+}
+
+.nombresymas{
+    font-family: 'Roboto', sans-serif;
+    font-weight: 900;
+
+}
+
+.description{
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 15px;
+    margin-left: 126px;
+    margin-right: 126px;
+}
+
+

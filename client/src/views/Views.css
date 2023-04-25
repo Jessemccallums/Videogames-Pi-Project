@@ -1,0 +1,136 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;900&display=swap');
+
+
+
+
+.filters {
+  display: flex;
+  justify-content: space-between;
+  background-color: #F9D949;;
+  padding: 15px;
+  border-radius: 30px;
+  margin-top: 40px;
+}
+
+.paginado {
+  display: flex;
+  margin: auto;
+}
+.contenido {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.searchbar {
+  padding: 11px 170px 14px 11px;
+  border-radius: 62px;
+  border: none;
+  margin-right: 105px;
+}
+
+.buscadordejuegos {
+  padding: 11px 28px;
+  border-radius: 15px;
+  border: none;
+}
+
+.filtradoscompleto {
+  margin-right: 50px;
+}
+
+.seleccionadores {
+  padding: 10px 19px;
+  border-radius: 12px;
+  border: none;
+}
+
+.tarjetas {
+    background-color: #f1f6f9;
+    padding: 30px 14px;
+    border-radius: 93px;
+    width: calc( 29.33% - 10px );
+    margin: 5px;
+}
+
+.cardsfixed {
+    display: flex;
+    flex-wrap: wrap;
+    margin: auto;
+    margin-top: 59px;
+    margin-left: 100px;
+    margin-right: 50px;
+}
+
+.textotarjeta{
+    text-align: center;
+    text-decoration: none;
+    color: black;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+}
+
+.firstbutton{
+  background-color: #F9D949;
+  padding: 10px;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 900;
+  color: black;
+  border: none;
+  border-radius: 15px;
+}
+
+.titulo{
+  font-family: 'Roboto', sans-serif;
+  font-weight: 900;
+  color: #f1f6f9;
+  font-size: 29px;
+}
+
+.parrafo{
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  color: #f1f6f9;
+
+}
+
+.completo{
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  padding: 73px;
+}
+
+.welcomepagediv{
+  display: flex;
+  align-items: center;
+}
+
+.imagenwelcome{
+  width: 800px;
+  height: 400px;
+  margin-right: 22px;
+}
+
+.labels{
+  display: flex;
+  flex-direction: column;
+  width: 25%;
+  margin: auto;
+  color: white;
+}
+
+.botonsubmit{
+  display: flex;
+  margin: auto;
+  padding: 15px;
+}
+
+.inputs{
+  padding: 10px;
+  border-radius: 27px
+}
+
+.errores{
+  color: red;
+}

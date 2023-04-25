@@ -30,10 +30,12 @@ const getGameByName = async (req, res) => {
       genres: game.genres.map((genre) => {
         return genre.name;
       }),
+      rating: game.rating,
+      createdInDb: game.createdInDb
     }));
 
     
-    const apiKey = "49898ccb845e449090e95ea5942b8df9";
+    const apiKey = "0bf11d925a114c3ab287876cb7b5a77e";
     let url = "https://api.rawg.io/api/games";
     let gamesRawg = [];
     let response = {};
@@ -59,6 +61,8 @@ const getGameByName = async (req, res) => {
         genres: game.genres.map((genre) => {
           return genre.name;
         }),
+        rating: game.rating,
+        createdInDb: false
       }));
 
 

@@ -3,17 +3,29 @@ import { useDispatch, useSelector } from 'react-redux'
 import { gameByName } from '../redux/actions'
 import { orderCards } from '../redux/actions'
 import { Link } from 'react-router-dom';
+import './Views.css'
 
 export default function HomeView () {
   const [orderCard, setOrderCard] = useState()
   const [currentPage, setCurrentPage] = useState(1)
   const [busqueda, setBusqueda] = useState('')
   const [orderCardGenre, setOrderCardGenre] = useState();
+  const [orderCreated, setOrderCreated] = useState();
   const dispatch = useDispatch()
   const stategames = useSelector(state => state.gamesByName)
   const gamesPerPage = 15
 
   console.log(stategames)
+
+  const handleChangeCreated = (event) => {
+    const valor = event.target.value;
+    if (valor !== "default") {
+      setOrderCreated(valor);
+    } else {
+      return true
+    }
+  };
+  
 
   const handleChangeGenre = (event) => {
     const valor = event.target.value
@@ -43,12 +55,24 @@ export default function HomeView () {
       setOrderCard('All')
       return result
     }
+    
+    if(valor === "ascendente"){
+      let result = stategames.sort((a,b) => {return a.rating - b.rating})
+      setOrderCard("ascendente");
+      return result
+    } 
+    
+    if(valor === "descendente"){
+      let result = stategames.sort((a,b) => {return b.rating - a.rating})
+      setOrderCard("descendente");
+      return result
+    }
   }
 
   useEffect(() => {
     dispatch(gameByName(busqueda))
     dispatch(orderCards(orderCard))
-  }, [])
+  }, [dispatch, busqueda, orderCreated, orderCard, orderCardGenre])
 
   const handlePrev = () => {
     setCurrentPage(prevPage => prevPage - 1)
@@ -68,49 +92,72 @@ export default function HomeView () {
   }
 
   
-  const filteredGames = stategames.filter(game => {
-    if (orderCardGenre) {
-      return game.genres.includes(orderCardGenre);
-    } else {
-      return true;
+  const filteredGames = stategames.filter((game) => {
+    let passesFilter = true;
+  
+    // check if any orderCardGenre is selected
+    if (orderCardGenre && !game.genres.includes(orderCardGenre)) {
+      passesFilter = false;
     }
+    
+    // check if any orderCreated is selected
+    if (orderCreated !== undefined && game.createdInDb !== (orderCreated === 'createdInDb')) {
+      passesFilter = false;
+    }
+    
+    // check if any busqueda is entered
+    if (busqueda && !game.name.toLowerCase().includes(busqueda.toLowerCase())) {
+      passesFilter = false;
+    }
+    
+    // if no options selected, return all games
+    if (!orderCardGenre && orderCreated === undefined && !busqueda) {
+      return stategames;
+    }
+  
+    return passesFilter;
   });
+  
+  
+  
   const indexOfLastGame = currentPage * gamesPerPage
   const indexOfFirstGame = indexOfLastGame - gamesPerPage
   const currentGames = filteredGames.slice(indexOfFirstGame, indexOfLastGame);
-
+  
 
 
   return (
-    <div>
+    <div className='contenido'>
+      
       <div>
         <input
           value={busqueda}
           placeholder='Search your favorites games'
           onChange={handleChange}
+          className='searchbar'
         />
-        <button onClick={hanlderGamesByName}>Buscar</button>
+        <button onClick={hanlderGamesByName} className='buscadordejuegos'>Buscar</button>
       </div>
-
-      <div>
+    <div className='filters'>
+      <div className='filtradoscompleto'>
         <h3>Filter by:</h3>
-        <select>
+        <select className='seleccionadores' onChange={handleChangeCreated}>
           <option value='default'>Default</option>
-          <option value='own'>own</option>
+          <option value='createdInDb'>own</option>
           <option value='public'>public</option>
         </select>
       </div>
-      <div>
+      <div className='filtradoscompleto'>
         <h3>Ordering:</h3>
-        <select name='' id='' onChange={handleChangeOrder}>
+        <select name='' id='' onChange={handleChangeOrder} className='seleccionadores'>
           <option value='All'>All</option>
           <option value='Ascendente'>Ascendente</option>
           <option value='Descendente'>Descendente</option>
         </select>
       </div>
-      <div>
+      <div className='filtradoscompleto'>
         <h3>Genres:</h3>
-        <select name='' id='' onChange={handleChangeGenre}>
+        <select name='' id='' onChange={handleChangeGenre} className='seleccionadores'>
           <option value='default'>Default</option>
           <option value='Action'>Action</option>
           <option value='Indie'>Indie</option>
@@ -133,44 +180,47 @@ export default function HomeView () {
           <option value='Card'>Card</option>
         </select>
       </div>
-      <div>
+      <div className='filtradoscompleto' >
         <h3>Rating</h3>
-        <select>
+        <select className='seleccionadores' onChange={handleChangeOrder}>
           <option value='default'>Default</option>
-          <option value='0-5'>0-5</option>
-          <option value='5-0'>5-0</option>
+          <option value='ascendente'>0-5</option>
+          <option value='descendente'>5-0</option>
         </select>
       </div>
-
-      <div>
-        <button onClick={() => handlePrev()} disabled={currentPage === 1}>
-          prev
-        </button>
-        <button onClick={() => setCurrentPage(1)}>1</button>
-        <button onClick={() => setCurrentPage(2)}>2</button>
-        <button onClick={() => setCurrentPage(3)}>3</button>
-        <button onClick={() => handleNext()}>next</button>
-      </div>
+    </div>
+    <div className='cardsfixed'>
 
       {stategames.length === 0 ? (
         <p>Cargando...</p>
       ) : (
         currentGames.map(game => (
-          <div key={game.id}>
-            <hr />
-            <h2>{game.id}</h2>
-            <Link to={`/detail/${game.id}`}>
-            <h2>{game.name}</h2>
+          <div key={game.id} className='tarjetas'>
+            
+            <h2 className='textotarjeta'>{game.id}</h2>
+            <Link to={`/detail/${game.id}`} className='textotarjeta'>
+            <h2 className='textotarjeta'>{game.name}</h2>
             </Link>
             <img
               src={game.background_image}
               alt='Game Picture'
-              style={{ width: '200px', height: 'auto' }}
-            />
-            <h2>{game.genres.join(' ') }</h2>
+              style={{ width: '100%', height: 'auto' }}
+              className='textotarjeta'
+              />
+            <h2 className='textotarjeta'>{game.genres.join(' ') }</h2>
           </div>
         ))
-      )}
+        )}
+        </div>
+      <div className='paginado'>
+        <button onClick={() => handlePrev()} disabled={currentPage === 1}>
+          prev
+        </button>
+        {/* <button onClick={() => setCurrentPage(1)}>1</button>
+        <button onClick={() => setCurrentPage(2)}>2</button>
+        <button onClick={() => setCurrentPage(3)}>3</button> */}
+        <button onClick={() => handleNext()}>next</button>
+      </div>
     </div>
   )
 }

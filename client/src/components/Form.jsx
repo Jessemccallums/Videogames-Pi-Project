@@ -34,7 +34,7 @@ export default function Form () {
   })
   useEffect(() => {
     dispatch(getGenres())
-  })
+  }, [dispatch])
   console.log(gamesByGenre)
   const plataformasObj = [
     { name: 'PlayStation 5' },
@@ -153,7 +153,7 @@ export default function Form () {
     <div>
       <form onSubmit={submitHandler}>
         <div
-        //className={styles.name}
+        className='labels'
         >
           <label
           //className={styles.label} htmlFor="name"
@@ -166,15 +166,16 @@ export default function Form () {
             name='name'
             value={form.name}
             onChange={handleChange}
+            className='inputs'
             //className={`${errors.name ? styles.error : styles.success}  ${
             //styles.input
             //}`
             //}
           />
-          <span>{errors.name}</span>
+          <span className='errores'>{errors.name}</span>
         </div>
         <div
-        //className={styles.image}
+        className='labels'
         >
           <label htmlFor='background_image'>Imagen:</label>
           <input
@@ -183,13 +184,15 @@ export default function Form () {
             name='background_image'
             value={form.background_image}
             onChange={handleChange}
+            className='inputs'
             //className={`${errors.image ? styles.error : styles.success}  ${
             //styles.input
             //}`}
           />
-          <span>{errors.background_image}</span>
+          <span className='errores'>{errors.background_image}</span>
         </div>
-        <div>
+        <div 
+        className='labels'>
           <label>Description:</label>
           <input
             placeholder='Write description...'
@@ -197,11 +200,13 @@ export default function Form () {
             name='description'
             value={form.description}
             onChange={handleChange}
+            className='inputs'
           />
+        <span className='errores'>{errors.description}</span>
         </div>
-        <span>{errors.description}</span>
         
-        <div>
+        <div 
+        className='labels'>
           <label>Released:</label>
           <input
             placeholder='Write released date..'
@@ -209,10 +214,12 @@ export default function Form () {
             name='released'
             value={form.released}
             onChange={handleChange}
+            className='inputs'
             />
+            <span className='errores'>{errors.released}</span>
         </div>
-            <span>{errors.released}</span>
-        <div>
+        <div 
+        className='labels'>
           <label>Genre:</label>
           <div>
             {gamesByGenre.map(genero => {
@@ -222,6 +229,7 @@ export default function Form () {
                     type='checkbox'
                     value={genero.id}
                     onChange={handleChangeOption}
+                    className='inputs'
                   />
                   <label value={genero.id}>{genero.name}</label>
                 </div>
@@ -229,20 +237,22 @@ export default function Form () {
             })}
           </div>
         </div>
-        <div>
+        <div 
+        className='labels'>
           <label> Platforms </label>
           <div>
             {plataformasObj.map(platforma => {
               return (
                 <div>
-                  <input type='checkbox' value={platforma.name} onChange={handleChangeOptionByPlatform}/>
+                  <input  className='inputs' type='checkbox' value={platforma.name} onChange={handleChangeOptionByPlatform}/>
                   <label>{platforma.name}</label>
                 </div>
               )
             })}
           </div>
         </div>
-        <div>
+        <div 
+        className='labels'>
           <label>Rating</label>
           <label>
             <input
@@ -250,6 +260,7 @@ export default function Form () {
               value='1'
               checked={radioRatingValue === 1}
               onChange={handleRadioChange}
+              className='inputs'
             />
             1
           </label>
@@ -259,6 +270,7 @@ export default function Form () {
               value='2'
               checked={radioRatingValue === 2}
               onChange={handleRadioChange}
+              className='inputs'
             />
             2
           </label>
@@ -268,6 +280,7 @@ export default function Form () {
               value='3'
               checked={radioRatingValue === 3}
               onChange={handleRadioChange}
+              className='inputs'
             />
             3
           </label>
@@ -277,6 +290,7 @@ export default function Form () {
               value='4'
               checked={radioRatingValue === 4}
               onChange={handleRadioChange}
+              className='inputs'
             />
             4
           </label>
@@ -291,7 +305,7 @@ export default function Form () {
           </label>
         </div>
 
-        <button type='submit'>Create Game</button>
+        <button type='submit' className='botonsubmit'>Create Game</button>
       </form>
     </div>
   )
