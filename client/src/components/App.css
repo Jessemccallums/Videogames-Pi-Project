@@ -54,6 +54,14 @@ body{
 
 }
 
+.nombresymas1{
+    
+    font-family: 'Roboto', sans-serif;
+    font-weight: 900;
+    background-color: lightgrey;
+    padding: 11px;
+}
+
 .description{
     font-family: 'Roboto', sans-serif;
     font-weight: 400;
@@ -62,7 +70,7 @@ body{
     margin-right: 126px;
     background: lightgray;
     padding: 17px;
-    margin-top: -107px;
+    margin-top: -268px;
 }
 
 

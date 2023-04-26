@@ -1,5 +1,5 @@
 const axios = require('axios')
-const { Videogame } = require('../db.js');
+const { Videogame, Genre } = require("../db.js");
 require('dotenv').config();
 const {
   API_KEY
@@ -20,17 +20,28 @@ const getGameById = async (req, res) => {
 
   try {
     if (isUUID(id)) {
-      const game = await Videogame.findOne({ where: { id } });
+      const game = await Videogame.findOne({
+      where: {id},
+      include: [{
+        model: Genre,
+        attributes: ['name'],
+        through: {
+            attributes: []
+        }
+    }]})
 
       if (game) {
-        const { name, description, released, rating, platforms, background_image } = game;
+        const { name, description, released, rating, platforms, background_image, genres } = game;
         const response = {
           name,
           description,
           released,
           rating,
           platforms,
-          background_image
+          background_image,
+          genres: genres.map((genre) => {
+            return genre.name;
+          }),
         };
         res.status(200).json(response);
       } else {
@@ -57,8 +68,18 @@ const getGameById = async (req, res) => {
       });
 
       let genre = arr3.map(el => el.name);
+      let data = { 
+        name, 
+        description, 
+        background_image, 
+        platforms, 
+        genres: genres.map((genre) => {
+          return genre.name;
+        }) , 
+        released, 
+        rating }
 
-      res.status(200).json({ name, description, background_image, platforms, genre, released, rating });
+      res.status(200).json(data);
     }
   } catch (error) {
     res.status(500).json({ error: error.message });
