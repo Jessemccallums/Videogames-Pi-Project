@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { getGenres } from '../redux/actions'
 import axios from 'axios'
 import { validate } from '../utils/validate'
+import './App.css'
 
 export default function Form () {
   const gamesByGenre = useSelector(state => state.allgenres)
@@ -30,7 +31,7 @@ export default function Form () {
     name: '',
     background_image: '',
     description: '',
-    released: '',
+    released: ''
   })
   useEffect(() => {
     dispatch(getGenres())
@@ -63,33 +64,33 @@ export default function Form () {
 
     setForm({ ...form, [property]: value })
 
-    setErrors(
-    	validate(
-    		{ ...form, [property]: value},
-    		errors,
-    	),
-    );
+    setErrors(validate({ ...form, [property]: value }, errors))
   }
 
-  const handleChangeOption = event => {
-    const selectedGenre = event.target.value
+  const handleChangeOption = (event) => {
+    const selectedGenre = event.target.value;
     if (event.target.checked) {
-      setGenreSelected([...genreSelected, selectedGenre])
+      if (!genreSelected.includes(selectedGenre)) {
+        setGenreSelected([...genreSelected, selectedGenre]);
+      }
     } else {
-      setGenreSelected(genreSelected.filter(genre => genre !== genreSelected))
+      setGenreSelected(genreSelected.filter((genre) => genre !== selectedGenre));
     }
-  }
-
+  };
+  
   const handleChangeOptionByPlatform = event => {
     const selectedPlatforms = event.target.value
     if (event.target.checked) {
-      setPlatformSelected([...platformSelected, selectedPlatforms])
+      if (!platformSelected.includes(selectedPlatforms)) {
+        setPlatformSelected([...platformSelected, selectedPlatforms]);
+      }
+      // setPlatformSelected([...platformSelected, selectedPlatforms])
     } else {
-      setPlatformSelected(platformSelected.filter(platform => platform !== genreSelected))
+      setPlatformSelected(
+        platformSelected.filter(platform => platform !== selectedPlatforms)
+      )
     }
   }
-
-
 
   async function createGames ({
     name,
@@ -134,179 +135,179 @@ export default function Form () {
   }
   const submitHandler = event => {
     event.preventDefault()
-    if(genreSelected.length === 0){
+    if (genreSelected.length === 0) {
       alert('seleciona algun genero')
-      return 
+      return
     }
-    if(radioRatingValue.length === 0){
+    if (radioRatingValue.length === 0) {
       alert('seleciona algun rating')
-      return 
+      return
     }
-    if(platformSelected.length === 0){
+    if (platformSelected.length === 0) {
       alert('seleciona alguna plataforma')
-      return 
+      return
     }
 
     createGames(form)
   }
   return (
-    <div>
-      <form onSubmit={submitHandler}>
-        <div
-        className='labels'
-        >
-          <label
-          //className={styles.label} htmlFor="name"
-          >
-            Nombre:
-          </label>
-          <input
-            placeholder='Name aqui....'
-            type='text'
-            name='name'
-            value={form.name}
-            onChange={handleChange}
-            className='inputs'
-            //className={`${errors.name ? styles.error : styles.success}  ${
-            //styles.input
-            //}`
-            //}
-          />
-          <span className='errores'>{errors.name}</span>
-        </div>
-        <div
-        className='labels'
-        >
-          <label htmlFor='background_image'>Imagen:</label>
-          <input
-            placeholder='Image url....'
-            type='text'
-            name='background_image'
-            value={form.background_image}
-            onChange={handleChange}
-            className='inputs'
-            //className={`${errors.image ? styles.error : styles.success}  ${
-            //styles.input
-            //}`}
-          />
-          <span className='errores'>{errors.background_image}</span>
-        </div>
-        <div 
-        className='labels'>
-          <label>Description:</label>
-          <input
-            placeholder='Write description...'
-            type='text'
-            name='description'
-            value={form.description}
-            onChange={handleChange}
-            className='inputs'
-          />
-        <span className='errores'>{errors.description}</span>
-        </div>
-        
-        <div 
-        className='labels'>
-          <label>Released:</label>
-          <input
-            placeholder='Write released date..'
-            type='text'
-            name='released'
-            value={form.released}
-            onChange={handleChange}
-            className='inputs'
+    <div className='formulariocontent'>
+      <div className='formulario'>
+        <form className='form' onSubmit={submitHandler}>
+          <div className='labels1'>
+            <label
+            //className={styles.label} htmlFor="name"
+            >
+              Nombre:
+            </label>
+            <input
+              placeholder='Name aqui....'
+              type='text'
+              name='name'
+              value={form.name}
+              onChange={handleChange}
+              className='inputs'
+              //className={`${errors.name ? styles.error : styles.success}  ${
+              //styles.input
+              //}`
+              //}
+            />
+            <span className='errores'>{errors.name}</span>
+          </div>
+          <div className='labels1'>
+            <label htmlFor='background_image'>Imagen:</label>
+            <input
+              placeholder='Image url....'
+              type='text'
+              name='background_image'
+              value={form.background_image}
+              onChange={handleChange}
+              className='inputs'
+              //className={`${errors.image ? styles.error : styles.success}  ${
+              //styles.input
+              //}`}
+            />
+            <span className='errores'>{errors.background_image}</span>
+          </div>
+          <div className='labels1'>
+            <label>Description:</label>
+            <input
+              placeholder='Write description...'
+              type='text'
+              name='description'
+              value={form.description}
+              onChange={handleChange}
+              className='inputs'
+            />
+            <span className='errores'>{errors.description}</span>
+          </div>
+
+          <div className='labels1'>
+            <label>Released:</label>
+            <input
+              placeholder='Write released date..'
+              type='text'
+              name='released'
+              value={form.released}
+              onChange={handleChange}
+              className='inputs'
             />
             <span className='errores'>{errors.released}</span>
-        </div>
-        <div 
-        className='labels'>
-          <label>Genre:</label>
-          <div>
-            {gamesByGenre.map(genero => {
-              return (
-                <div key={genero.id}>
-                  <input
-                    type='checkbox'
-                    value={genero.id}
-                    onChange={handleChangeOption}
-                    className='inputs'
-                  />
-                  <label value={genero.id}>{genero.name}</label>
-                </div>
-              )
-            })}
           </div>
-        </div>
-        <div 
-        className='labels'>
-          <label> Platforms </label>
-          <div>
-            {plataformasObj.map(platforma => {
-              return (
-                <div>
-                  <input  className='inputs' type='checkbox' value={platforma.name} onChange={handleChangeOptionByPlatform}/>
-                  <label>{platforma.name}</label>
-                </div>
-              )
-            })}
+          <div className='labels'>
+            <label>Genre:</label>
+            <div className='allGenre'>
+              {gamesByGenre.map(genero => {
+                return (
+                  <div key={genero.id}>
+                    <input
+                      type='checkbox'
+                      value={genero.id}
+                      onChange={handleChangeOption}
+                      className='inputs'
+                    />
+                    <label value={genero.id}>{genero.name}</label>
+                  </div>
+                )
+              })}
+            </div>
           </div>
-        </div>
-        <div 
-        className='labels'>
-          <label>Rating</label>
-          <label>
-            <input
-              type='radio'
-              value='1'
-              checked={radioRatingValue === 1}
-              onChange={handleRadioChange}
-              className='inputs'
-            />
-            1
-          </label>
-          <label>
-            <input
-              type='radio'
-              value='2'
-              checked={radioRatingValue === 2}
-              onChange={handleRadioChange}
-              className='inputs'
-            />
-            2
-          </label>
-          <label>
-            <input
-              type='radio'
-              value='3'
-              checked={radioRatingValue === 3}
-              onChange={handleRadioChange}
-              className='inputs'
-            />
-            3
-          </label>
-          <label>
-            <input
-              type='radio'
-              value='4'
-              checked={radioRatingValue === 4}
-              onChange={handleRadioChange}
-              className='inputs'
-            />
-            4
-          </label>
-          <label>
-            <input
-              type='radio'
-              value='5'
-              checked={radioRatingValue === 5}
-              onChange={handleRadioChange}
-            />
-            5
-          </label>
-        </div>
+          <div className='labels'>
+            <label> Platforms </label>
+            <div className='allGenre'>
+              {plataformasObj.map(platforma => {
+                return (
+                  <div>
+                    <input
+                      className='inputs'
+                      type='checkbox'
+                      value={platforma.name}
+                      onChange={handleChangeOptionByPlatform}
+                    />
+                    <label>{platforma.name}</label>
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+          <div className='labels'>
+            <label>Rating</label>
+            <label>
+              <input
+                type='radio'
+                value='1'
+                checked={radioRatingValue === 1}
+                onChange={handleRadioChange}
+                className='inputs'
+              />
+              1
+            </label>
+            <label>
+              <input
+                type='radio'
+                value='2'
+                checked={radioRatingValue === 2}
+                onChange={handleRadioChange}
+                className='inputs'
+              />
+              2
+            </label>
+            <label>
+              <input
+                type='radio'
+                value='3'
+                checked={radioRatingValue === 3}
+                onChange={handleRadioChange}
+                className='inputs'
+              />
+              3
+            </label>
+            <label>
+              <input
+                type='radio'
+                value='4'
+                checked={radioRatingValue === 4}
+                onChange={handleRadioChange}
+                className='inputs'
+              />
+              4
+            </label>
+            <label>
+              <input
+                type='radio'
+                value='5'
+                checked={radioRatingValue === 5}
+                onChange={handleRadioChange}
+              />
+              5
+            </label>
+          </div>
 
-        <button type='submit' className='botonsubmit'>Create Game</button>
-      </form>
+          <button type='submit' className='botonsubmit'>
+            Create Game
+          </button>
+        </form>
+      </div>
     </div>
   )
 }

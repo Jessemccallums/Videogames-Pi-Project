@@ -129,7 +129,7 @@ export default function HomeView () {
   return (
     <div className='contenido'>
       
-      <div>
+      <div className='div'>
         <input
           value={busqueda}
           placeholder='Search your favorites games'
@@ -197,16 +197,17 @@ export default function HomeView () {
         currentGames.map(game => (
           <div key={game.id} className='tarjetas'>
             
-            <h2 className='textotarjeta'>{game.id}</h2>
+            {/* <h2 className='textotarjeta'>{game.id}</h2> */}
             <Link to={`/detail/${game.id}`} className='textotarjeta'>
             <h2 className='textotarjeta'>{game.name}</h2>
             </Link>
-            <img
+            <div className='cardsimage'>
+              <img
               src={game.background_image}
               alt='Game Picture'
-              style={{ width: '100%', height: 'auto' }}
               className='textotarjeta'
               />
+            </div>
             <h2 className='textotarjeta'>{game.genres.join(' ') }</h2>
           </div>
         ))

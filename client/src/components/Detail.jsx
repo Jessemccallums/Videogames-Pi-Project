@@ -21,16 +21,20 @@ console.log(detail)
   return (
     <div className='detallado'>
       <h1 className='nombresymas'>{detail.name}</h1>
-      <h2 className='description'>{detail.description}</h2>
+      <div className='divimagen'>
       <img
               src={detail.background_image}
               alt='Game Picture'
-              style={{ width: '200px', height: 'auto' }}
+              
             />
+      </div>
+      <div className='contenttext'>
+      <h2 className='description'>{detail.description}</h2>
       <h2 className='nombresymas'>{detail.platforms}</h2>
       <h2 className='nombresymas'>{detail.released}</h2>
       <h2 className='nombresymas'>{detail.rating}</h2>
       <h2 className='nombresymas'>{detail.genres}</h2>
+      </div>
     </div>
   )
 }
