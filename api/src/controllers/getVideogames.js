@@ -1,6 +1,11 @@
-// en tu archivo de controladores:
+require('dotenv').config();
+const {
+  API_KEY
+} = process.env;
+
+
 const getVideogame = async (id) => {
-    const response = await axios.get(`https://api.rawg.io/api/games/${id}?key=49898ccb845e449090e95ea5942b8df9`);
+    const response = await axios.get(`https://api.rawg.io/api/games/${id}?key=${API_KEY}`);
     const getdata = await response.data
     return {
       id: getdata.id,

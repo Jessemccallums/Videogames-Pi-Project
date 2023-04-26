@@ -1,6 +1,10 @@
 const axios = require("axios");
 const { Op } = require("sequelize");
 const { Videogame, Genre } = require("../db.js");
+require('dotenv').config();
+const {
+  API_KEY
+} = process.env;
 
 const getGameByName = async (req, res) => {
   try {
@@ -35,7 +39,7 @@ const getGameByName = async (req, res) => {
     }));
 
     
-    const apiKey = "0bf11d925a114c3ab287876cb7b5a77e";
+    const apiKey = API_KEY;
     let url = "https://api.rawg.io/api/games";
     let gamesRawg = [];
     let response = {};
