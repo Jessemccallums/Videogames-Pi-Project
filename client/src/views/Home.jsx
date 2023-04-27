@@ -7,6 +7,7 @@ import './Views.css'
 
 export default function HomeView () {
   const [orderCard, setOrderCard] = useState()
+  const [orderByRating, setOrderByRating] = useState()
   const [currentPage, setCurrentPage] = useState(1)
   const [busqueda, setBusqueda] = useState('')
   const [orderCardGenre, setOrderCardGenre] = useState();
@@ -17,6 +18,11 @@ export default function HomeView () {
 
   console.log(stategames)
 
+  const HandleRestore = () => {
+    window.location.reload()
+  }
+
+
   const handleChangeCreated = (event) => {
     const valor = event.target.value;
     if (valor !== "default") {
@@ -26,6 +32,18 @@ export default function HomeView () {
     }
   };
   
+  const handleChangeOrderByRating = (event) => {
+    const valor = event.target.value
+    if(valor !== "default"){
+      // let result = stategames.sort((a,b) => {return a.rating - b.rating})
+      setOrderByRating(valor);
+      // return result
+    } else {
+      return true
+    }
+    
+
+  }
 
   const handleChangeGenre = (event) => {
     const valor = event.target.value
@@ -37,41 +55,31 @@ export default function HomeView () {
     const valor = event.target.value
 
     if (valor === 'Ascendente') {
-      let result = stategames.sort((a, b) => {
-        return a.name.localeCompare(b.name)
-      })
+      // let result = stategames.sort((a, b) => {
+      //   return a.name.localeCompare(b.name)
+      // })
       setOrderCard('Ascendente')
-      return result
+      // return result
     } 
     if(valor === 'Descendente'){
-      let result = stategames.sort((a, b) => {
-        return b.name.localeCompare(a.name)
-      })
+      // let result = stategames.sort((a, b) => {
+      //   return b.name.localeCompare(a.name)
+      // })
       setOrderCard('Descendente')
-      return result
+      // return result
     }
-    if(valor === 'All'){
-      let result = stategames
-      setOrderCard('All')
-      return result
-    }
+    // if(valor === 'All'){
+    //   let result = stategames
+    //   setOrderCard('All')
+    //   return result
+    // }
     
-    if(valor === "ascendente"){
-      let result = stategames.sort((a,b) => {return a.rating - b.rating})
-      setOrderCard("ascendente");
-      return result
-    } 
-    
-    if(valor === "descendente"){
-      let result = stategames.sort((a,b) => {return b.rating - a.rating})
-      setOrderCard("descendente");
-      return result
-    }
   }
 
   useEffect(() => {
     dispatch(gameByName(busqueda))
     dispatch(orderCards(orderCard))
+    setCurrentPage(1)
   }, [dispatch, busqueda, orderCreated, orderCard, orderCardGenre])
 
   const handlePrev = () => {
@@ -91,7 +99,8 @@ export default function HomeView () {
     dispatch(gameByName(busqueda))
   }
 
-  
+
+
   const filteredGames = stategames.filter((game) => {
     let passesFilter = true;
   
@@ -99,30 +108,61 @@ export default function HomeView () {
     if (orderCardGenre && !game.genres.includes(orderCardGenre)) {
       passesFilter = false;
     }
-    
+  
     // check if any orderCreated is selected
     if (orderCreated !== undefined && game.createdInDb !== (orderCreated === 'createdInDb')) {
       passesFilter = false;
     }
-    
+  
     // check if any busqueda is entered
     if (busqueda && !game.name.toLowerCase().includes(busqueda.toLowerCase())) {
       passesFilter = false;
     }
-    
+  
     // if no options selected, return all games
     if (!orderCardGenre && orderCreated === undefined && !busqueda) {
-      return stategames;
+      return true;
     }
   
     return passesFilter;
+  })
+  .sort((a, b) => {
+    if (orderByRating === '0-5') {
+      if (a.rating !== b.rating) {
+        return a.rating - b.rating;
+      } else {
+        if (orderCard === 'Ascendente') {
+          return a.name.localeCompare(b.name);
+        } else {
+          return b.name.localeCompare(a.name);
+        }
+      }
+    } else if (orderByRating === '5-0') {
+      if (a.rating !== b.rating) {
+        return b.rating - a.rating;
+      } else {
+        if (orderCard === 'Ascendente') {
+          return a.name.localeCompare(b.name);
+        } else {
+          return b.name.localeCompare(a.name);
+        }
+      }
+    } else {
+      if (orderCard === 'Ascendente') {
+        return a.name.localeCompare(b.name);
+      } else {
+        return b.name.localeCompare(a.name);
+      }
+    }
   });
   
-  
+
   
   const indexOfLastGame = currentPage * gamesPerPage
   const indexOfFirstGame = indexOfLastGame - gamesPerPage
   const currentGames = filteredGames.slice(indexOfFirstGame, indexOfLastGame);
+  const totalPages = Math.ceil(filteredGames.length / gamesPerPage);
+
   
 
 
@@ -182,11 +222,17 @@ export default function HomeView () {
       </div>
       <div className='filtradoscompleto' >
         <h3>Rating</h3>
-        <select className='seleccionadores' onChange={handleChangeOrder}>
+        <select className='seleccionadores' onChange={handleChangeOrderByRating}>
           <option value='default'>Default</option>
-          <option value='ascendente'>0-5</option>
-          <option value='descendente'>5-0</option>
+          <option value='0-5'>0-5</option>
+          <option value='5-0'>5-0</option>
         </select>
+      </div>
+      <div className='filtradoscompleto' >
+        <h3>Restore</h3>
+        <button className='seleccionadores' onClick={HandleRestore}>
+          Restore
+        </button>
       </div>
     </div>
     <div className='cardsfixed'>
@@ -215,12 +261,12 @@ export default function HomeView () {
         </div>
       <div className='paginado'>
         <button onClick={() => handlePrev()} disabled={currentPage === 1}>
-          prev
+          Prev
         </button>
         {/* <button onClick={() => setCurrentPage(1)}>1</button>
         <button onClick={() => setCurrentPage(2)}>2</button>
         <button onClick={() => setCurrentPage(3)}>3</button> */}
-        <button onClick={() => handleNext()}>next</button>
+        <button onClick={handleNext} disabled={currentPage === totalPages}>Next</button>
       </div>
     </div>
   )

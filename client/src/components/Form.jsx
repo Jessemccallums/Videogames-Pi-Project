@@ -133,7 +133,7 @@ export default function Form () {
         console.log(error)
       })
   }
-  const submitHandler = event => {
+  const submitHandler = (event) => {
     event.preventDefault()
     if (genreSelected.length === 0) {
       alert('seleciona algun genero')
@@ -148,6 +148,12 @@ export default function Form () {
       return
     }
 
+    const hasErrors = Object.values(errors).some(error => error !== '');
+    if (hasErrors) {
+      alert('Completa todos los campos del formulario')
+      return
+    }
+
     createGames(form)
   }
   return (
@@ -155,9 +161,7 @@ export default function Form () {
       <div className='formulario'>
         <form className='form' onSubmit={submitHandler}>
           <div className='labels1'>
-            <label
-            //className={styles.label} htmlFor="name"
-            >
+            <label>
               Nombre:
             </label>
             <input
@@ -167,10 +171,6 @@ export default function Form () {
               value={form.name}
               onChange={handleChange}
               className='inputs'
-              //className={`${errors.name ? styles.error : styles.success}  ${
-              //styles.input
-              //}`
-              //}
             />
             <span className='errores'>{errors.name}</span>
           </div>
@@ -182,11 +182,7 @@ export default function Form () {
               name='background_image'
               value={form.background_image}
               onChange={handleChange}
-              className='inputs'
-              //className={`${errors.image ? styles.error : styles.success}  ${
-              //styles.input
-              //}`}
-            />
+              className='inputs' />
             <span className='errores'>{errors.background_image}</span>
           </div>
           <div className='labels1'>
