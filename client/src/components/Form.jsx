@@ -116,20 +116,20 @@ export default function Form () {
     await axios
       .post(`http://localhost:3001/videogames/`, newJuego)
       .then(res => {
-        console.log('creado con exito')
-        // setForm({
-        //   name: '',
-        //   background_image: '',
-        //   description: '',
-        //   platforms: [],
-        //   released: '',
-        //   rating: '',
-        //   genre: []
-        // })
-        window.location.reload()
+        alert('creado con exito')
+        setForm({
+          name: '',
+          background_image: '',
+          description: '',
+          platforms: [],
+          released: '',
+          rating: '',
+          genre: []
+        })
+        // window.location.reload()
       })
       .catch(error => {
-        console.log('hubo un error')
+        alert('hubo un error')
         console.log(error)
       })
   }
