@@ -6,23 +6,36 @@ import { Link } from 'react-router-dom';
 import './Views.css'
 
 export default function HomeView () {
+
+  //Aqui tengo mis estados locales, los cuales me ayudan en mi aplicacion a tenerla de manera compleja, 
+  // su proposito es tener un ordenamiento de manera dinamica. aplico un hook que me provee un estado local
   const [orderCard, setOrderCard] = useState()
   const [orderByRating, setOrderByRating] = useState()
   const [currentPage, setCurrentPage] = useState(1)
   const [busqueda, setBusqueda] = useState('')
   const [orderCardGenre, setOrderCardGenre] = useState();
   const [orderCreated, setOrderCreated] = useState();
+  //aqui aplico otro hook, el cual me ayuda a usar un dispatch, me ayudara a hacer mis dispatch en redux 
   const dispatch = useDispatch()
+  // y aqui llamo a mi estado global con el hook useSelector, el cual tiene un proposito de acceder
+  // al estado global gamesByName, el cual tiene el proposito de mostrar la informacion buscada por nombre.
+
   const stategames = useSelector(state => state.gamesByName)
+  // aqui uso lo que yo llamo, una bandra, que me ayudara a hacer el paginado de 15 juegos por pagina
   const gamesPerPage = 15
 
   console.log(stategames)
+  // a partir de ahora, muestro mis handlers, que me ayudara a darle vida a mi componente, 
+  //con respecto a sus funcionamientos
 
+  // 1) aqui aplico mi primer handlers, el cual me ayudara a reiniciar mis filtros
   const HandleRestore = () => {
     window.location.reload()
   }
 
-
+  // 2) aqui aplico mi segundo handler, el cual con ayuda de mi estado local, setOrderCreated, y la propiedad event
+  // hare una toma de informacion de los valores de los inputs, llamados target, este valor, me ayudara a darle 
+  // valores a mi estado local ya mencionado, el cual usare para hacer el filtrado.
   const handleChangeCreated = (event) => {
     const valor = event.target.value;
     if (valor !== "default") {
@@ -31,7 +44,9 @@ export default function HomeView () {
       return true
     }
   };
-  
+  //3) aqui aplico mi tercer handlers, el cual con ayuda de un estado local, llamado setOrderByRating, 
+  //y la propiedad  event, le dare valores a mi estado local, esos valores seran el valor de el input dado. 
+  // ese valor lo usare en el futuro para mis filtrados y ordenamientos
   const handleChangeOrderByRating = (event) => {
     const valor = event.target.value
     if(valor !== "default"){
@@ -43,13 +58,21 @@ export default function HomeView () {
     
 
   }
-
+  //4) aqui aplico mi cuarto handler, el cual con ayuda de un estado local, llamado setOrderCardGenre, y la propiedad
+  // event, voy a poder darle valores a mi estado local proveniente de el valor de mi input, este valor lo inserto
+  //en mi estado local, el cual usare para el filtrado y ordenamiento de mi aplicacion
   const handleChangeGenre = (event) => {
     const valor = event.target.value
     if(valor !== 'default'){
       setOrderCardGenre(valor)
     }
   }
+
+  //5) aqui esta mi quinto handlre, el cual con ayuda de mi estado local, llamado handleChangeOrder, y la 
+  // propiedad event, yo voy a poder asignarle a mi estado local valores traidos del input el cual esta siendo 
+  // aplicado este handler, y el valor que tendra mi estado local sera utilizado a futuro en mi filtrado y 
+  // ordenamiento
+
   const handleChangeOrder = (event) => {
     const valor = event.target.value
 
@@ -66,31 +89,42 @@ export default function HomeView () {
    
     
   }
-
+  // aqui tengo un useEffect, el cual me ayudara con el renderizado de mi aplicacion, hare un dispatch a mi action
+  // gameByName, el cual le pasare por parametro el valor de mi estado local setBusqueda, el cual me permitira 
+  // buscar por nombre, los juegos traidos de mi back, ya sea que provienen de la api, o de mi base de datos,
+  // es decir, los juegos creados directamente en mi base de datos
   useEffect(() => {
     dispatch(gameByName(busqueda))
     dispatch(orderCards(orderCard))
     setCurrentPage(1)
   }, [dispatch, busqueda, orderCreated, orderCard, orderCardGenre])
-
+  //6) aqui tengo mi sexto handler, el cual me ayudara a hacer mi paginado, me ayudara a retrocer de pagina, 
+  // con el boton Prev
   const handlePrev = () => {
-    setCurrentPage(prevPage => prevPage - 1)
+    setCurrentPage(currentPage - 1)
   }
-
+  //7) aqui tengo mi septimo handler, el cual me ayudara a hacer mi paginado, me ayudara a aumentar y avanzar
+  // de pagina, con el boton Next
   const handleNext = () => {
-    setCurrentPage(prevPage => prevPage + 1)
+    setCurrentPage(currentPage + 1)
   }
-
+  //8) aqui aplico mi octavo handler, el cual me ayudara a otorgarle un valor a mi estado local setBusqueda,
+  // y su valor, lo usare para buscar nombre en el futuro.
   const handleChange = event => {
     setBusqueda(event.target.value)
   }
-
+  //9) aqui aplico mi noveno handler, el cual con ayuda de mi estado local setCurrentPage y mi funcion dispatch, 
+  // hare una busqueda por nombre, esta me ayudara a renderizar mis juegos por nombre, el cual tambien le dare un
+  // filtrado y ordenamiento
   const hanlderGamesByName = () => {
     setCurrentPage(1)
     dispatch(gameByName(busqueda))
   }
 
-
+  // ahora, aqui uso una variable la cual mantiene los juegos de mi estado global, y le hace un ordenamiento 
+  // y tambien le hace un filtrado, todos los oredenamientos y filtrado los hacemos con ayuda de mi estado global,
+  // llamada stategames
+  // la cual me ayuda a obtener lo valores para hacer el filtrado
 
   const filteredGames = stategames.filter((game) => {
     let passesFilter = true;
@@ -144,14 +178,28 @@ export default function HomeView () {
   });
   
 
-  
+  // aqui hago la parte del pagina, la cual me ayudara a hacer un paginado de los juegos que vienen
+  // de mi estado global, pero ademas me ayudara a hacer paginado de los juegos filtrado.
+  // uso una variable llamada indexOfLastGame. La cual multiplica el valor de la pagina actual, 
+  // con los juegos por pagina.
   const indexOfLastGame = currentPage * gamesPerPage
+  console.log(indexOfLastGame);
+  // luego en mi variable indexOfFirstGame, hago una recta del resultado de mi variable indexOfLastGame
+  // y los juegos por pagina. la cual me ayudara a obtener los primero juegos 
   const indexOfFirstGame = indexOfLastGame - gamesPerPage
+  console.log(indexOfFirstGame);
+  // Luego, aqui hago un slice, para obtener una copia de los juegos filtrados dependiendo de su posicion.
+  // el cual me ayudara en el futuro en la parte de pagina, aqui tengo los juegos actules, currentGames
+  // que estan por pagina.
   const currentGames = filteredGames.slice(indexOfFirstGame, indexOfLastGame);
+  // Luego, esta variable me ayudara a obtener el total de paginas, hago un redondeado de los juegos filtrados
+  // y juegos por pagina. el cual me ayudara a obtener la cantidad de paginas.
   const totalPages = Math.ceil(filteredGames.length / gamesPerPage);
+  console.log(totalPages);
 
   
-
+  // Aqui tengo mi aplicacion, en la cual tengo todo en funcionamiento, renderizando una search bar, 
+  // 
 
   return (
     <div className='contenido'>
