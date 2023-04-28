@@ -35,9 +35,8 @@ export default function HomeView () {
   const handleChangeOrderByRating = (event) => {
     const valor = event.target.value
     if(valor !== "default"){
-      // let result = stategames.sort((a,b) => {return a.rating - b.rating})
-      setOrderByRating(valor);
-      // return result
+     setOrderByRating(valor);
+    
     } else {
       return true
     }
@@ -55,24 +54,16 @@ export default function HomeView () {
     const valor = event.target.value
 
     if (valor === 'Ascendente') {
-      // let result = stategames.sort((a, b) => {
-      //   return a.name.localeCompare(b.name)
-      // })
+     
       setOrderCard('Ascendente')
-      // return result
+      
     } 
     if(valor === 'Descendente'){
-      // let result = stategames.sort((a, b) => {
-      //   return b.name.localeCompare(a.name)
-      // })
+     
       setOrderCard('Descendente')
-      // return result
+     
     }
-    // if(valor === 'All'){
-    //   let result = stategames
-    //   setOrderCard('All')
-    //   return result
-    // }
+   
     
   }
 
@@ -103,23 +94,19 @@ export default function HomeView () {
 
   const filteredGames = stategames.filter((game) => {
     let passesFilter = true;
-  
-    // check if any orderCardGenre is selected
+
     if (orderCardGenre && !game.genres.includes(orderCardGenre)) {
       passesFilter = false;
     }
-  
-    // check if any orderCreated is selected
+
     if (orderCreated !== undefined && game.createdInDb !== (orderCreated === 'createdInDb')) {
       passesFilter = false;
     }
-  
-    // check if any busqueda is entered
+
     if (busqueda && !game.name.toLowerCase().includes(busqueda.toLowerCase())) {
       passesFilter = false;
     }
   
-    // if no options selected, return all games
     if (!orderCardGenre && orderCreated === undefined && !busqueda) {
       return true;
     }
@@ -263,9 +250,6 @@ export default function HomeView () {
         <button onClick={() => handlePrev()} disabled={currentPage === 1}>
           Prev
         </button>
-        {/* <button onClick={() => setCurrentPage(1)}>1</button>
-        <button onClick={() => setCurrentPage(2)}>2</button>
-        <button onClick={() => setCurrentPage(3)}>3</button> */}
         <button onClick={handleNext} disabled={currentPage === totalPages}>Next</button>
       </div>
     </div>
