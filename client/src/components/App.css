@@ -9,13 +9,22 @@
 }
 .texto{ 
     text-decoration: none;
-    color: white;
     border-radius: 20px;
     padding: 20px;
-    font-family: 'Roboto', sans-serif;
-    font-weight: 900;
-    font-size: 25px;
+    
     cursor: pointer;
+
+    
+font-family: 'Inter';
+font-style: normal;
+font-weight: 600;
+font-size: 18px;
+line-height: 16px;
+/* identical to box height, or 89% */
+
+letter-spacing: 0.266667px;
+
+color: #111155;
 }
 
 .texto:hover{
@@ -32,7 +41,7 @@ body{
     height: 100%;
     /* background-color: #212A3E; */
     
-    background: linear-gradient(90deg, #394867, #212A3E );
+    background: #D3F0F4
 }
 
 .detallado{  
@@ -58,7 +67,7 @@ body{
     
     font-family: 'Roboto', sans-serif;
     font-weight: 900;
-    background-color: lightgrey;
+    background: lightgoldenrodyellow;
     padding: 11px;
 }
 
@@ -68,9 +77,9 @@ body{
     font-size: 13px;
     margin-left: 126px;
     margin-right: 126px;
-    background: lightgray;
     padding: 17px;
     margin-top: -268px;
+    background: lightgoldenrodyellow;
 }
 
 
@@ -107,3 +116,28 @@ body{
     display: grid;
     grid-template-columns: repeat(2,1fr);
 }
+
+.box1{
+    
+    display: flex;
+    gap: 24px;
+}
+
+@media (max-width: 600px) {
+    /* Agrega tus estilos específicos para pantallas pequeñas aquí */
+   .titulo{
+    font-size: 45px;
+   }
+   .description{
+    
+    margin-left: 0px;
+    margin-right: 0px;
+   }
+   .detallado{
+    
+    width: 100%;
+   }
+   .nombresymas1{
+    font-size: 20px;
+   }
+  }

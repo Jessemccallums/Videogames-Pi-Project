@@ -1,22 +1,36 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Dela+Gothic+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
 
+/* Using a custom cursor image */
 
 
+.disabled-button {
+  /* Add your desired styles for the disabled button here */
+  opacity: 0.5;
+  cursor: not-allowed;
+}
 .filters {
+  
   
   display: flex;
   justify-content: space-between;
-  background: linear-gradient(90deg, #212A3E, #394867);
+  background: #111155;
   padding: 15px;
   border-radius: 10px;
   margin-top: 40px;
 
 }
 
-.paginado {
+.paginado { 
+ 
   display: flex;
   margin: auto;
+  margin-top: 80px;
+  gap: 20px;
+  margin-bottom: 70px;
 }
 .contenido {
   display: flex;
@@ -36,20 +50,32 @@
 
 .searchbar {
   padding: 11px 170px 14px 11px;
-  border-radius: 10px 0px 0px 10px;
   border: none;
+  background: #F4FEFF;
+  border-radius: 10px;
 }
 
 .buscadordejuegos {
+  cursor: pointer;
   padding: 11px 15px 14px 11px;
-  border-radius: 0px 10px 10px 0px;
   border: none;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 16px;
+  letter-spacing: 0.266667px;
+  color: #FFFFFF;
+  background: #111155;
+  border-radius: 10px;
 }
 
 .filtradoscompleto {
   margin-right: 50px;
   color: white;
 }
+
+
 
 .seleccionadores {
   padding: 10px 19px;
@@ -58,14 +84,16 @@
 }
 
 .tarjetas {
-    
-  background-color: rgba(0, 0, 0, 0.3);
   padding: 30px 14px;
   border-radius: 10px;
-  /* width: calc( 29.33% - 10px ); */
   margin: 5px;
-  width: 350px;
-  height: 400px;
+  width: 246px;
+  align-items: center;
+  background: #FFFFFF;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  flex-direction: column;
 }
 
 .cardsfixed {
@@ -82,34 +110,47 @@
 }
 
 .textotarjeta{
-    text-align: center;
-    text-decoration: none;
-    color: white;
-    font-family: 'Roboto', sans-serif;
-    font-weight: 400;
+  text-align: center;
+  text-decoration: none;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 800;
+  font-size: 16px;
+  line-height: 16px;
+  letter-spacing: 0.266667px;
+  color: #121212;
 }
 
 .firstbutton{
-  background-color: #F9D949;
-  padding: 10px;
-  font-family: 'Roboto', sans-serif;
-  font-weight: 900;
-  color: black;
   border: none;
   border-radius: 15px;
+  background: linear-gradient(225deg, #090932 0%, #5555F8 100%);
+  padding: 20px 50px 20px 50px;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 16px;
+  letter-spacing: 0.266667px;
+  color: #FFFFFF;
+  cursor: pointer;
 }
 
 .titulo{
-  font-family: 'Roboto', sans-serif;
-  font-weight: 900;
-  color: #f1f6f9;
-  font-size: 29px;
+  color: #111155;
+  font-size: 60px;
+  text-align: center;
+  font-family: 'Dela Gothic One', cursive;
 }
 
 .parrafo{
-  font-family: 'Roboto', sans-serif;
-  font-weight: 400;
-  color: #f1f6f9;
+font-family: 'Inter';
+font-style: normal;
+font-weight: 500;
+font-size: 16px;
+line-height: 20px;
+letter-spacing: 0.5px;
+color: #64898E;
 
 }
 
@@ -119,14 +160,19 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
+
 }
 
 .welcomepagediv{
-  display: grid;
-  grid-template-columns: 40% 60%;
-  width: 90%;
+  
+  width: 72%;
   height: 100%;
   border-radius: 20px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  z-index: 1;
 }
 .completo{
   width: 100%;
@@ -134,8 +180,7 @@
   display: flex;
   flex-direction: column;
   padding: 1%;
-  background: rgba(0, 0, 0, 0.5);
-  align-items: flex-start;
+  align-items: center;
   border-radius: 14px
 }
 
@@ -154,12 +199,28 @@
 .labels{
   color: white;
   display: contents;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 16px;
+  letter-spacing: 0.266667px;
 }
 
 .botonsubmit{
   display: flex;
-  margin: auto;
-  padding: 15px;
+  cursor: pointer;
+  background: #111155;
+  border-radius: 5px;
+  padding: 10px 70px 10px 70px;
+  border: none;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 16px;
+  letter-spacing: 0.266667px;
+  color: #FFFFFF;
 }
 
 .inputs{
@@ -216,4 +277,137 @@
 .labels1{
   color: white;
   display: contents;
+}
+.labels12{
+  
+  color: white;
+  display: flex;
+  flex-direction: column;
+}
+
+.detailbtn{
+    cursor: pointer;
+    background: #111155;
+    border-radius: 5px;
+    padding: 10px 70px 10px 70px;
+    border: none;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 16px;
+    letter-spacing: 0.266667px;
+    color: #FFFFFF;
+}
+
+.div{
+  
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.btnpage{
+  background: #111155;
+    border-radius: 5px;
+    padding: 10px 30px 10px 30px;
+    border: none;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 16px;
+    letter-spacing: 0.266667px;
+    color: #FFFFFF;
+    cursor: pointer;
+}
+
+.grdimg{
+  position: absolute;
+  z-index: 1;
+  top: -55px;
+  left: 158px;
+  width: 500px;
+
+}
+
+
+.grdimg2{
+  position: absolute;
+  z-index: 1;
+  top: 160px;
+  left: 730px;
+  width: 250px;
+}
+
+.boxgenre{
+  
+  width: 45%;
+}
+
+.labelratio{
+  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.labels1t{
+  display: flex;
+}
+
+.labels12 label{
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 16px;
+  letter-spacing: 0.266667px;
+}
+
+.labels1 label{
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 16px;
+  letter-spacing: 0.266667px;
+  margin-top: 15px;
+}
+
+
+@media (max-width: 600px) {
+  /* Agrega tus estilos específicos para pantallas pequeñas aquí */
+  .filters{  
+    display: flex;
+    justify-content: space-between;
+    background: #111155;
+    padding: 15px;
+    border-radius: 10px;
+    margin-top: 40px;
+    flex-direction: column;
+    align-items: center;
+  }
+  .filternames{
+    align-items: center;
+  }
+  .filtradoscompleto{
+    margin: 0px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .div{
+    
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-direction: column;
+  }
+  .box1{
+    
+    display: flex;
+    gap: 24px;
+    flex-direction: column;
+  }
 }

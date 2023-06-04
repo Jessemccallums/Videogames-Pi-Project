@@ -4,6 +4,7 @@ import { getGenres } from '../redux/actions'
 import axios from 'axios'
 import { validate } from '../utils/validate'
 import './App.css'
+import '../views/Views.css'
 
 export default function Form () {
   const gamesByGenre = useSelector(state => state.allgenres)
@@ -160,24 +161,26 @@ export default function Form () {
     <div className='formulariocontent'>
       <div className='formulario'>
         <form className='form' onSubmit={submitHandler}>
-          <div className='labels1'>
+            <div className='box1'>
+
+          <div className='labels12'>
             <label>
-              Nombre:
+              Name:
             </label>
             <input
-              placeholder='Name aqui....'
+              placeholder='Write the name here....'
               type='text'
               name='name'
               value={form.name}
               onChange={handleChange}
               className='inputs'
-            />
+              />
             <span className='errores'>{errors.name}</span>
           </div>
-          <div className='labels1'>
-            <label htmlFor='background_image'>Imagen:</label>
+          <div className='labels12'>
+            <label htmlFor='background_image'>Picture:</label>
             <input
-              placeholder='Image url....'
+              placeholder='Picture url....'
               type='text'
               name='background_image'
               value={form.background_image}
@@ -185,10 +188,11 @@ export default function Form () {
               className='inputs' />
             <span className='errores'>{errors.background_image}</span>
           </div>
+              </div>
           <div className='labels1'>
             <label>Description:</label>
             <input
-              placeholder='Write description...'
+              placeholder='Write the game description...'
               type='text'
               name='description'
               value={form.description}
@@ -201,7 +205,7 @@ export default function Form () {
           <div className='labels1'>
             <label>Released:</label>
             <input
-              placeholder='Write released date..'
+              placeholder='Write the released date..'
               type='text'
               name='released'
               value={form.released}
@@ -215,7 +219,7 @@ export default function Form () {
             <div className='allGenre'>
               {gamesByGenre.map(genero => {
                 return (
-                  <div key={genero.id}>
+                  <div key={genero.id} className='boxgenre'>
                     <input
                       type='checkbox'
                       value={genero.id}
@@ -246,9 +250,9 @@ export default function Form () {
               })}
             </div>
           </div>
-          <div className='labels'>
             <label>Rating</label>
-            <label>
+          <div className='labels1t'>
+            <label className='labelratio'>
               <input
                 type='radio'
                 value='1'
@@ -258,7 +262,7 @@ export default function Form () {
               />
               1
             </label>
-            <label>
+            <label className='labelratio'>
               <input
                 type='radio'
                 value='2'
@@ -268,7 +272,7 @@ export default function Form () {
               />
               2
             </label>
-            <label>
+            <label className='labelratio'>
               <input
                 type='radio'
                 value='3'
@@ -278,7 +282,7 @@ export default function Form () {
               />
               3
             </label>
-            <label>
+            <label className='labelratio'>
               <input
                 type='radio'
                 value='4'
@@ -288,7 +292,7 @@ export default function Form () {
               />
               4
             </label>
-            <label>
+            <label className='labelratio'>
               <input
                 type='radio'
                 value='5'
