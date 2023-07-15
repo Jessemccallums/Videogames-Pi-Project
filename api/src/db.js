@@ -7,12 +7,23 @@ const Videojuegos = require("./models/Videogame");
 const fs = require('fs');
 const path = require('path');
 const {
-  DB_USER, DB_PASSWORD, DB_HOST,
+  DB_USER, DB_PASSWORD, DB_HOST, BDD
 } = process.env;
 
-const sequelize = new Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/videogames`, {
-  logging: false, // set to console.log to see the raw SQL queries
-  native: false, // lets Sequelize know we can use pg-native for ~30% more speed
+// const sequelize = new Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/videogames`, {
+//   logging: false, // set to console.log to see the raw SQL queries
+//   native: false, // lets Sequelize know we can use pg-native for ~30% more speed
+// });
+const sequelize = new Sequelize(BDD, DB_USER, DB_PASSWORD, {
+  host: DB_HOST,
+  dialect: postgres,
+  port: DB_PORT,
+  //!important: Descomentar cuando vaya a produccion
+  logging: false,
+  define: {
+    timestamps: false,
+    underscored: true
+  }
 });
 const basename = path.basename(__filename);
 
