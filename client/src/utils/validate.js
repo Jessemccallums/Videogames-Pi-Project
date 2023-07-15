@@ -1,5 +1,5 @@
 //important: Aqui esta la validacion de los campos
-function validate(state, errorsState) {
+export default function validate(state, errorsState) {
     
     const errors = { ...errorsState };
 
@@ -37,6 +37,3 @@ function validate(state, errorsState) {
 }
 
 
-module.exports={
-    validate
-}

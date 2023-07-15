@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import React, { useEffect, useState } from 'react'
 import { getGenres } from '../redux/actions'
 import axios from 'axios'
-import { validate } from '../utils/validate'
+import  validate  from '../utils/validate'
 import './App.css'
 import '../views/Views.css'
 
