@@ -13,7 +13,7 @@ export const gameByName = (name) => {
 
     return async (dispatch) => {
         try {
-            const response = await axios.get(`http://localhost:3001/videogamesByName?name=${name}`)
+            const response = await axios.get(`/videogamesByName?name=${name}`)
             dispatch({type: GET_BY_NAME, payload: response.data})
         } catch (error) {
             console.log(error.message)
@@ -29,7 +29,7 @@ export const orderCards = (id) => {
 export const getGenres = () => {
     return async (dispatch) => {
         try {
-            const response = await axios.get('http://localhost:3001/genres')
+            const response = await axios.get('/genres')
             dispatch({type: GET_GENRES, payload: response.data})
         } catch (error) {
             console.log(error.message)

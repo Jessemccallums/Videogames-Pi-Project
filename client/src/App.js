@@ -5,6 +5,10 @@ import HomeView from './views/Home'
 import Detail from './components/Detail'
 import Form from './components/Form'
 import Menu from './components/Menu'
+import axios from 'axios'
+const desarrolloapp = 'http://localhost:3001'
+const deploy = 'https://videogames-pi-project-production.up.railway.app/'
+axios.defaults.baseURL = deploy
 
 export default function App() {
   return (

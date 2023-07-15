@@ -115,7 +115,7 @@ export default function Form () {
     console.log(newJuego)
 
     await axios
-      .post(`http://localhost:3001/videogames/`, newJuego)
+      .post(`/videogames/`, newJuego)
       .then(res => {
         alert('creado con exito')
         setForm({

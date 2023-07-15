@@ -14,7 +14,7 @@ useEffect(() => {
 }, [id])
 
 const info = async () => {
-const {data} = await axios(`http://localhost:3001/videogames/${id}`)
+const {data} = await axios(`/videogames/${id}`)
     setId(data)
 }
 console.log(detail)
